@@ -1,0 +1,43 @@
+version: '3.7'
+
+services:
+  openam:
+    image: openidentityplatform/openam:latest
+    container_name: openam
+    ports:
+      - "8080:8080"
+    networks:
+      openam_network:
+        aliases:
+          - openam.example.org
+    
+  openig:
+    image: openidentityplatform/openig:latest
+    container_name: openig
+    volumes:
+      - ./openig-config:/usr/local/openig-config:ro
+    environment:
+      CATALINA_OPTS: -Dopenig.base=/usr/local/openig-config -Dspring-service=http://spring-service:8081 -Dopenam=http://openam.example.org:8080/openam
+    ports:
+      - "8081:8080"
+    networks:
+      openam_network:
+        aliases:
+          - openig.example.org
+
+  spring-service:
+    container_name: spring-service
+    image: openidentityplatform/spring-security-openam-example
+    restart: always
+    #ports:
+    #  - "8082:8081"
+    environment:
+      JAVA_OPTS: -Dspring.profiles.active=jwt
+    networks:
+      openam_network:
+        aliases:
+          - spring-service
+
+networks:
+  openam_network:
+    driver: bridge
