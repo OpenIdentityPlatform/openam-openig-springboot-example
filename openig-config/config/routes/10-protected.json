@@ -1,6 +1,6 @@
 {
-    "name": "${matches(request.uri.path, '^/api/protected-jwt')}",
-    "condition": "${matches(request.uri.path, '^/api/protected-jwt')}",
+    "name": "${matches(request.uri.path, '^/api/protected-jwt') || matches(request.uri.path, '^/protected-jwt')}",
+    "condition": "${matches(request.uri.path, '^/api/protected-jwt') || matches(request.uri.path, '^/protected-jwt')}",
     "monitor": true,
     "timer": true,
     "handler": {
