@@ -1,6 +1,6 @@
 {
-    "name": "${matches(request.uri.path, '^/protected-jwt')}",
-    "condition": "${matches(request.uri.path, '^/protected-jwt')}",
+    "name": "${matches(request.uri.path, '^/api/protected-jwt')}",
+    "condition": "${matches(request.uri.path, '^/api/protected-jwt')}",
     "monitor": true,
     "timer": true,
     "handler": {
@@ -80,7 +80,7 @@
                     {
                         "handler": "ClientHandler",
                         "capture": "all",
-                        "baseURI": "${matchingGroups(system['protected-jwt'],\"((http|https):\/\/(.[^\/]*))\")[1]}"
+                        "baseURI": "${matchingGroups(system['spring-service'],\"((http|https):\/\/(.[^\/]*))\")[1]}"
                     }
                 ]
             }
